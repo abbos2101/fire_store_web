@@ -41,6 +41,19 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            borderRadius: BorderRadius.circular(100),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: widgetBody(state),
       ),

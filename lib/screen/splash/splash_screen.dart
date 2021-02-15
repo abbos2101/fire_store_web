@@ -23,10 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void launch() async {
-    // if (await hiveDB.getUserId() == null)
-    Navigator.pushReplacementNamed(context, LoginScreen.route);
-    // else
-    //   Navigator.pushReplacementNamed(context, MainScreen.route);
+    await Future.delayed(Duration.zero);
+    while (Navigator.canPop(context)) Navigator.pop(context);
+    if (await hiveDB.getUserId() == null)
+      Navigator.pushReplacementNamed(context, LoginScreen.route);
+    else
+      Navigator.pushReplacementNamed(context, MainScreen.route);
   }
 
   @override

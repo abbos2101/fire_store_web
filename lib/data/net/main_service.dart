@@ -1,19 +1,23 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_store_web/data/model/menu_model.dart';
 
 class MainService {
-  Future<List<MenuModel>> onGetMenu() async {
-    final collection = await FirebaseFirestore.instance
+  final StreamController<List<MenuModel>> subscription = StreamController();
+
+  void dispose() {
+    subscription.close();
+  }
+
+  void onGetMenu() async {
+    final QuerySnapshot collection = await FirebaseFirestore.instance
         .collection("items")
-        .get()
-        .timeout(Duration(seconds: 30));
-    return (collection.docs).map(
-      (e) => MenuModel(
-        id: e["id"],
-        name: e["name"],
-        type: e["type"],
-        icon: e["icon"],
-      ),
+        .orderBy("id")
+        .get();
+    subscription.add(
+      (collection.docs).map((e) => MenuModel.fromDoc(e)).toList(),
     );
+    //yield (collection.docs).map((e) => MenuModel.fromDoc(e)).toList();
   }
 }
